@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+frontend/node_modules/
+
+# Python cache
+__pycache__/
+
+# Environment files
+.env
+
+# Build outputs
+dist/
+frontend/dist/
+
+# Logs
+*.log 

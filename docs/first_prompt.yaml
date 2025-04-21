@@ -1,0 +1,11 @@
+目的: 「音声が苦手でも日記を続けられるアプリ」の最小骨組みを作りたい。
+依頼:
+1. backend/fastapi_app.py
+   - POST /entries で {content} を Supabase テーブル entries に保存
+2. frontend/src/pages/Home.tsx
+   - textarea と [保存] ボタン
+   - ボタン押しで /entries へ fetch
+3. frontend/src/pages/Archive.tsx （空でOK）
+4. lib/supabase.ts : .env から URL と key を読む
+5. tests/test_save_entry.py : POST が 200 と id を返すことを確認
+出力: ファイル名ごとにコードブロックで。
