@@ -9,6 +9,14 @@
 export const supabaseUrl = (import.meta as any).env.VITE_SUPABASE_URL;
 export const supabaseAnonKey = (import.meta as any).env.VITE_SUPABASE_ANON_KEY;
 
+// ─────────────────────────────
+// バックエンド FastAPI の本番 URL。
+// 環境変数 VITE_API_BASE_URL が未設定の開発環境では
+// 空文字になり、fetch("/entries") など相対パスで動きます。
+// ─────────────────────────────
+export const API_BASE =
+  (import.meta as any).env.VITE_API_BASE_URL ?? "";
+
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn(
     'Supabase URL または Anon Key が環境変数に設定されていません。','\n','フロントエンドからSupabaseに接続する場合は .env ファイルに VITE_SUPABASE_URL と VITE_SUPABASE_ANON_KEY を設定してください。'

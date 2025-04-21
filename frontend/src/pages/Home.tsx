@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE } from "../lib/supabase";
 
 const Home: React.FC = () => {
   const [content, setContent] = useState('');
@@ -7,7 +8,7 @@ const Home: React.FC = () => {
   const handleSave = async () => {
     setMessage(''); // Clear previous messages
     try {
-      const response = await fetch('/entries', { // Assuming the backend runs on the same origin or proxied
+      const response = await fetch(`${API_BASE}/entries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
