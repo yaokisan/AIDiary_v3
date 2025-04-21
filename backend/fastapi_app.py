@@ -6,6 +6,7 @@ from pathlib import Path
 # ルート (.env) を明示的に読み込む
 load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 from supabase import create_client, Client
+from fastapi.middleware.cors import CORSMiddleware
 
 # .env から読み込み
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -19,6 +20,17 @@ print("DEBUG KEY =", SUPABASE_KEY[:10] + "…" if SUPABASE_KEY else SUPABASE_KEY
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = FastAPI()
+
+# ────────── CORS 設定 ──────────
+# フロントエンド(Vercel)からのリクエストを許可する。
+# 必ず https://ai-diary-v3.vercel.app に置き換えてください。
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://ai-diary-v3.vercel.app"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+# ────────────────────────────
 
 class Entry(BaseModel):
     content: str
