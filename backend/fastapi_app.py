@@ -1,13 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import os
-from dotenv import load_dotenv     # ← 追加
-load_dotenv()                      # ← 追加
-from supabase import create_client, Client     # ← 解除
+from dotenv import load_dotenv
+from pathlib import Path
+# ルート (.env) を明示的に読み込む
+load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
+from supabase import create_client, Client
 
 # .env から読み込み
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+# 値を確認（None なら .env を再チェック）
+print("DEBUG URL =", SUPABASE_URL)
+print("DEBUG KEY =", SUPABASE_KEY[:10] + "…" if SUPABASE_KEY else SUPABASE_KEY)
 
 # Supabase クライアントを生成
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
