@@ -17,6 +17,7 @@ frontend/dist/
 *.log 
 
 # Python virtual environments
+venv/
 .venv/
 .venv.osaka/
 .venv.tokyo/
