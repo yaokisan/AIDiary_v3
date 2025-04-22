@@ -11,6 +11,7 @@ type Entry = {
   id: number;
   content: string;
   created_at: string;
+  emotion: string | null;
 };
 
 const Archive: React.FC = () => {
@@ -43,28 +44,64 @@ const Archive: React.FC = () => {
 
       {entries.length === 0 && <p>まだ日記はありません。</p>}
 
-      {entries.map((e) => (
-        <article
-          key={e.id}
-          style={{
-            background: '#fff',
-            borderRadius: '12px',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-            padding: '1rem',
-            marginBottom: '1rem',
-          }}
-        >
-          <time style={{ fontSize: '0.85rem', color: '#666' }}>
-            {new Date(e.created_at).toLocaleDateString()}
-          </time>
-          <p style={{ marginTop: '.5rem' }}>
-            {e.content.slice(0, 30)}
-            {e.content.length > 30 && '…'}
-          </p>
-        </article>
-      ))}
+      {entries.map((e) => {
+        let emotionData = null;
+        if (e.emotion) {
+          try {
+            emotionData = JSON.parse(e.emotion);
+          } catch (error) {
+            console.error('感情データの解析に失敗:', error);
+          }
+        }
+        
+        return (
+          <article
+            key={e.id}
+            style={{
+              background: '#fff',
+              borderRadius: '12px',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+              padding: '1rem',
+              marginBottom: '1rem',
+            }}
+          >
+            <time style={{ fontSize: '0.85rem', color: '#666' }}>
+              {new Date(e.created_at).toLocaleDateString()}
+            </time>
+            <p style={{ marginTop: '.5rem' }}>
+              {e.content.slice(0, 30)}
+              {e.content.length > 30 && '…'}
+            </p>
+            
+            {emotionData && (
+              <div className="entry-emotions" style={{ marginTop: '.5rem', display: 'flex', gap: '8px' }}>
+                {Object.entries(emotionData).map(([emotion, value]) => (
+                  <div key={emotion} style={{ 
+                    display: 'inline-block', 
+                    padding: '2px 6px', 
+                    borderRadius: '4px',
+                    fontSize: '0.7rem',
+                    backgroundColor: 
+                      emotion === 'joy' ? '#FFC107' : 
+                      emotion === 'anger' ? '#F44336' : 
+                      emotion === 'sadness' ? '#2196F3' : 
+                      '#4CAF50',
+                    color: '#fff',
+                    opacity: Number(value) * 0.8 + 0.2
+                  }}>
+                    {emotion === 'joy' ? '喜び' : 
+                     emotion === 'anger' ? '怒り' : 
+                     emotion === 'sadness' ? '悲しみ' : 
+                     '楽しさ'}: {Math.round(Number(value) * 100)}%
+                  </div>
+                ))}
+              </div>
+            )}
+          </article>
+        );
+      })}
     </main>
   );
 };
 
-export default Archive; 
+export default Archive;    
