@@ -6,4 +6,7 @@ supabase>=2.15.0
 # For testing
 pytest>=8.0.0
 httpx>=0.27.0
-pytest-asyncio>=0.23.5 
+pytest-asyncio>=0.23.5
+
+# For Google Generative AI
+google-generativeai>=0.3.0

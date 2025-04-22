@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { API_BASE } from "../lib/supabase";
+import { DiaryModal } from "../components/DiaryModal";
 
 const Home: React.FC = () => {
   const [content, setContent] = useState('');
   const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const handleSave = async () => {
     setMessage(''); // Clear previous messages
@@ -33,6 +35,8 @@ const Home: React.FC = () => {
   return (
     <div>
       <h1>日記を入力</h1>
+
+      {/* 旧入力 UI */}
       <textarea
         rows={10}
         cols={50}
@@ -42,8 +46,15 @@ const Home: React.FC = () => {
       />
       <div>
         <button onClick={handleSave}>保存</button>
+        {/* ▼▼ 追加: AI対話で日記を書く ▼▼ */}
+        <button style={{ marginLeft: "1rem" }} onClick={() => setShowModal(true)}>
+          日記を書く（AI）
+        </button>
       </div>
       {message && <p>{message}</p>}
+
+      {/* モーダル表示 */}
+      {showModal && <DiaryModal onClose={() => setShowModal(false)} />}
     </div>
   );
 };
